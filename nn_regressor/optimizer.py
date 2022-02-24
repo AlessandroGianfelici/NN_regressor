@@ -24,14 +24,10 @@ def optimize(
     y_test,
     actual_best,
     confs_nn,
+    optimization_params,
     compute_metric,
 ):
     """Evolve a network."""
-
-    with open(os.path.join("optimize.yaml"), "r", encoding="utf-8") as handler:
-        optimization_params = yaml.load(handler, Loader=yaml.FullLoader)
-
-    logger = logging.getLogger("__name__")
     logger.info(
         "***Evolving %d generations with population %d***" % (generations, population)
     )
