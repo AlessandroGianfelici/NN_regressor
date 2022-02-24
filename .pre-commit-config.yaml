@@ -1,0 +1,97 @@
+# PRE-COMMIT INSTRUCTIONS
+#
+# pre-commit is a python library to automatize several actions or checks at the commit stage.
+# Every action is performed ONLY on the files that have been modified in the present commit.
+# If one of the check is not passed, the affected file are modified and the commit is aborted.
+# Es. if a file is not black-formatted before commit, this pre-commit script will abort the commit,
+# format the file using black and asking the user to add and commit it again. This will ensure
+# that only compliant file are committed in the repo.
+#
+# Installation:
+# --------------
+# pre-commit can be installed using pip:
+#
+# pip install pre-commit
+#
+# Setup:
+# --------------
+# Open a terminal in the main folder of the git repo and run:
+#
+# pre-commit install
+#
+# If we want to disable pre-commit, we'll open a terminal in the main folder and run:
+#
+# pre-commit install
+#
+# Configuration:
+# ---------------
+# To configure which actions should be done when committing we can simply add/remove/change
+# stages in this yaml file. A full list of built-in actions is provided here:
+#
+# https://pre-commit.com/hooks.html
+#
+# The first time a new hook is emplyed, pre-commit installs it, so the first commit
+# will take significatively longer time (from the next time the commit stage will
+# be much faster).
+#
+# Additional note:
+# ---------------
+# I have added all the stages that I find can be useful for us, but obviously there is
+# a trade-off between the number of automatized actions and the time consumed for them
+# at the commit time. We could reason about that and decide if we can get rid of something
+# for the sake of speed.
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: check-added-large-files #check that we are not accidentally trying to commit large files
+    -   id: check-merge-conflict #check that we are not committing unsolved merge conflicts
+    -   id: trailing-whitespace #remove trailing whitespaces
+    -   id: check-yaml #checks yaml files for parseable syntax.
+    -   id: end-of-file-fixer # remove duplicated \n at the end of the files
+    -   id: requirements-txt-fixer # sorts entries in requirements.txt
+    -   id: no-commit-to-branch # disable direct commit on master
+    -   id: fix-encoding-pragma
+-   repo: https://github.com/hadialqattan/pycln # remove duplicated or unused import
+    rev: "v1.2.0"
+    hooks:
+    -   id: pycln
+        name: removing unused import
+        description: "A formatter for finding and removing unused import statements."
+        entry: pycln
+        language: python
+        language_version: python3
+        types: [python]
+        args: ["--all"]
+-   repo: https://github.com/pycqa/isort # sort import according to PEP8
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: sorting imports
+        args: ["--profile", "black"]
+-   repo: https://github.com/psf/black # format every modified scripts using Black
+    rev: 20.8b1
+    hooks:
+    -   id: black
+        args: []
+        files: .
+        name: black formatting
+-   repo: https://github.com/Carreau/velin # utility for automatize docstring format check (according to numpy convention)
+    rev: 0.0.11
+    hooks:
+    -   id: velin
+        name: docstring refactoring
+#-   repo: https://github.com/PyCQA/pydocstyle # utility for automating docstring format check
+#    rev: 6.1.1
+#    hooks:
+#    -   id: pydocstyle
+#        name: checking docstring complance
+#        args: [--convention=numpy]
+-   repo: local # scoring code using pylint. If the score is below 6, the commit is not permitted
+    hooks:
+    -   id: pylint
+        name: scoring code with pylint (fails under 6.0) # but I would like to increase this threshold ;)
+        entry: pylint
+        language: system
+        types: [python]
+        args: [--fail-under=6]

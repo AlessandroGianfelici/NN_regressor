@@ -1,0 +1,40 @@
+docs/build/*
+# Python excludes
+*.pyc
+__pycache__
+.idea/
+*.pb
+*.whl
+.ipynb_checkpoints
+models.yaml
+*.html
+# folders
+.vscode/*
+log_folder/*
+catboost_info/*
+*.zip
+*.h5
+# result data
+/result_data/*
+/models/*
+/extracted_models/*
+
+# parsed data
+parsed_data/*.pickle
+
+#EXCEL
+*.xls*
+*.csv
+*.html
+*.ipynb
+*.ipynb_checkpoints
+#JSON
+*.json
+
+# docs
+*.docx
+
+#Pickle
+*.pickle
+*.tmp
+*.pxi
