@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import os
 import random
 from copy import deepcopy
 from functools import reduce
@@ -8,7 +7,6 @@ from operator import add
 
 import numpy as np
 import pandas as pd
-import yaml
 
 from .model import NeuralNetworkRegressor
 
@@ -202,7 +200,7 @@ class Optimizer:
         return pop
 
     def fitness(self, network):
-        """Return the wmae, which is our fitness function."""
+        """Return the fitness function."""
         if network.metric is None:
             copied_network = deepcopy(network)
             fitness_vector = []
@@ -222,7 +220,7 @@ class Optimizer:
                     copied_network = NeuralNetworkRegressor(network.parameters)
             network.metric = np.mean(fitness_vector) - np.std(fitness_vector)
             logger.info(
-                f"Test set WMAE: mean={np.mean(fitness_vector)},std={np.std(fitness_vector)}, N_layer = {len(network.hidden_layers.keys())}"
+                f"Test set SCORE: mean={np.mean(fitness_vector)},std={np.std(fitness_vector)}, fitness={network.metric}"
             )
         logger.debug(f"Fitness: {network.metric}")
         return network.metric

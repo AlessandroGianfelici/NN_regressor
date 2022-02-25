@@ -18,7 +18,7 @@ catboost_info/*
 /result_data/*
 /models/*
 /extracted_models/*
-
+/ubiquant/*
 # parsed data
 parsed_data/*.pickle
 
