@@ -315,7 +315,7 @@ class Optimizer:
         graded = [(self.fitness(network), network) for network in pop]
 
         # Sort on the scores.
-        graded = [x[1] for x in sorted(graded, key=lambda x: x[0], reverse=False)]
+        graded = [x[1] for x in sorted(graded, key=lambda x: x[0], reverse=True)]
 
         # Get the number we want to keep for the next gen.
         retain_length = int(len(graded) * self.retain)
