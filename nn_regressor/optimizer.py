@@ -145,7 +145,7 @@ class Optimizer:
         x_test,
         y_test,
         confs_nn,
-        compute_metric,
+        fitness_function,
         retain=0.4,
         random_select=0.1,
         mutate_chance=0.2,
@@ -173,7 +173,7 @@ class Optimizer:
         self.x_test = x_test
         self.y_test = y_test
 
-        self.fitness_function = compute_metric
+        self.fitness_function = fitness_function
 
     def create_population(self, count, actual_best):
         """Create a population of random networks.
